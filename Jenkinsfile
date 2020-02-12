@@ -11,7 +11,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("mjuuso/getintodevops-hellonode")
+        app = docker.build("172.17.0.1:18081/docker/getintodevops-hellonode")
     }
 
     stage('Test image') {
@@ -19,7 +19,7 @@ node {
          * Run a curl inside the newly-build Docker image */
 
         app.inside {
-            sh 'curl http://localhost:8000 || exit 1'
+            sh 'node --version'
         }
     }
 
@@ -28,7 +28,7 @@ node {
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+        docker.withRegistry('https://172.17.0.1:18081/', 'Registry') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
