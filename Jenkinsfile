@@ -30,7 +30,7 @@ node {
          * Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry('https://172.17.0.1:18081/', 'Registry') {
             /*app.push("${env.BUILD_NUMBER}")*/
-            app.push
+            app.push()
         }
     }
 }
